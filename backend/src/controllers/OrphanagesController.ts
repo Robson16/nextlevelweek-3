@@ -38,7 +38,7 @@ export default {
             opening_hours,
             open_on_weekends
         } = request.body;
-        
+
         const orphanagesRepository = getRepository(Orphanage);
 
         const requestImages = request.files as Express.Multer.File[];
@@ -54,7 +54,7 @@ export default {
             about,
             instructions,
             opening_hours,
-            open_on_weekends,
+            open_on_weekends: open_on_weekends === 'true',
             images
         }
 
@@ -76,11 +76,11 @@ export default {
         await schema.validate(data, {
             abortEarly: false,
         });
-    
+
         const orphanage = orphanagesRepository.create(data);
-    
+
         await orphanagesRepository.save(orphanage);
-        
+
         return response.status(201).json(orphanage);
     }
 };
