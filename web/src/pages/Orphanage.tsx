@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Map, Marker, TileLayer } from "react-leaflet";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiClock, FiInfo } from "react-icons/fi";
+import { Map, Marker, TileLayer } from "react-leaflet";
 import { useParams } from 'react-router-dom';
 
 import Sidebar from "../components/Sidebar";
-import mapIcon from "../utils/mapIcon";
 import api from "../services/api";
+import mapIcon from "../utils/mapIcon";
 
 import '../styles/pages/orphanage.css';
 
-interface Orphanage {
+interface OrphanageProps {
   name: string;
   latitude: number;
   longitude: number;
@@ -30,7 +30,7 @@ interface OrphanageParams {
 
 export default function Orphanage() {
   const params = useParams<OrphanageParams>();
-  const [orphanage, setOrphanage] = useState<Orphanage>();
+  const [orphanage, setOrphanage] = useState<OrphanageProps>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
@@ -111,12 +111,12 @@ export default function Orphanage() {
                   fim de semana
                 </div>
               ) : (
-                  <div className="open-on-weekends dont-open">
-                    <FiInfo size={32} color="#FF669D" />
+                <div className="open-on-weekends dont-open">
+                  <FiInfo size={32} color="#FF669D" />
                   Não atendemos <br />
                   fim de semana
-                  </div>
-                )}
+                </div>
+              )}
             </div>
 
             <button type="button" className="contact-button">
