@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import Orphanage from './Orphanage';
 
 @Entity('images')
 export default class Image {
-    @PrimaryGeneratedColumn('increment')
-    id: number;
-    
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
     @Column()
     path: string;
 

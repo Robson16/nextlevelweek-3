@@ -1,9 +1,13 @@
-import { Request, Response, static } from 'express';
+import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
-
-import orphanageView from '../views/orphanages_view';
+import { IImageProps } from '../config/imagekit';
 import Orphanage from '../models/Orphanage';
+import orphanageView from '../views/orphanages_view';
+
+interface ICreateRequest extends Request {
+    photos?: IImageProps[];
+}
 
 export default {
     async index(request: Request, response: Response) {
@@ -28,7 +32,7 @@ export default {
         return response.json(orphanageView.render(orphanage));
     },
 
-    async create(request: Request, response: Response) {
+    async create(request: ICreateRequest, response: Response) {
         const {
             name,
             latitude,
@@ -36,15 +40,15 @@ export default {
             about,
             instructions,
             opening_hours,
-            open_on_weekends
+            open_on_weekends,
         } = request.body;
 
         const orphanagesRepository = getRepository(Orphanage);
 
-        const requestImages = request.files as Express.Multer.File[];
+        const requestImages = request.photos as IImageProps[];
 
         const images = requestImages.map(image => {
-            return { path: image.filename }
+            return { path: image.filePath }
         });
 
         const data = {
